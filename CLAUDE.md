@@ -3,6 +3,8 @@
 Expose any TCP/HTTP service as a `.onion` address. Production onion hosting with
 vanity address generation, service lifecycle management, and planned SeaORM persistence.
 
+**Tests:** 45
+
 ## Architecture
 
 Three-crate workspace:
@@ -10,18 +12,29 @@ Three-crate workspace:
 ```
 kakureyado-core     — traits + types (OnionServiceHost, VanityGenerator, ServiceRegistry)
 kakureyado-service  — implementations (LocalOnionHost, BruteForceVanityGenerator, MemoryRegistry)
-kakureyado-cli      — clap CLI (start, stop, list, vanity, status)
+kakureyado-cli      — clap CLI (start, stop, list, vanity, status), execute() extracted for testability
 ```
+
+### Key Types
+
+| Type | Kind | Description |
+|------|------|-------------|
+| `KeyType` | Enum | Identity / DescriptorSigning / IntroPointAuth |
+| `DescriptorState` | Enum | 5 states for onion service descriptor lifecycle |
+| `LoadBalanceStrategy` | Enum | Load balancing strategies for backend instances |
+| `BackendInstance` | Struct | A backend service instance (host, port, weight, health) |
+| `AccessMode` | Enum | Access control modes for onion services |
+| `Error` | Struct | PartialEq + is_retryable() |
 
 ## Key Files
 
 | Path | Purpose |
 |------|---------|
-| `kakureyado-core/src/lib.rs` | Core traits, error types, value structs |
+| `kakureyado-core/src/lib.rs` | Core traits, error types, value structs, KeyType, DescriptorState, LoadBalanceStrategy, BackendInstance, AccessMode |
 | `kakureyado-service/src/vanity.rs` | Parallel brute-force vanity .onion address generator |
 | `kakureyado-service/src/host.rs` | In-memory onion service host (stub) |
 | `kakureyado-service/src/registry.rs` | In-memory service registry |
-| `kakureyado-cli/src/main.rs` | CLI entry point |
+| `kakureyado-cli/src/main.rs` | CLI entry point, execute() extracted for testability |
 
 ## Vanity Generation Algorithm
 

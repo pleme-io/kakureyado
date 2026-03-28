@@ -13,6 +13,7 @@ use kakureyado_core::{
 ///
 /// Manages service state without an actual Tor process — useful for integration
 /// tests and as a reference implementation of the [`OnionServiceHost`] trait.
+#[derive(Debug)]
 pub struct LocalOnionHost {
     services: Arc<RwLock<HashMap<String, OnionService>>>,
 }

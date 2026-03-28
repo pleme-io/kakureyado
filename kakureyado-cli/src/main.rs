@@ -50,18 +50,16 @@ enum Command {
     },
 }
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    tracing_subscriber::fmt()
-        .with_env_filter(EnvFilter::from_default_env())
-        .init();
-
-    let cli = Cli::parse();
-    let host = LocalOnionHost::new();
-    let registry = MemoryRegistry::new();
-    let vanity_gen = BruteForceVanityGenerator::default();
-
-    match cli.command {
+/// Execute CLI commands against the provided service components.
+///
+/// Extracted from `main` for testability.
+async fn execute(
+    host: &LocalOnionHost,
+    registry: &MemoryRegistry,
+    vanity_gen: &BruteForceVanityGenerator,
+    command: Command,
+) -> Result<(), Box<dyn std::error::Error>> {
+    match command {
         Command::Start {
             name,
             target,
@@ -121,4 +119,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tracing_subscriber::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
+    let cli = Cli::parse();
+    let host = LocalOnionHost::new();
+    let registry = MemoryRegistry::new();
+    let vanity_gen = BruteForceVanityGenerator::default();
+
+    execute(&host, &registry, &vanity_gen, cli.command).await
 }

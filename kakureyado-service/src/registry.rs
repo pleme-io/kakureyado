@@ -7,6 +7,7 @@ use tokio::sync::RwLock;
 use kakureyado_core::{Error, OnionService, Result, ServiceRegistry};
 
 /// In-memory service registry for testing and development.
+#[derive(Debug)]
 pub struct MemoryRegistry {
     services: Arc<RwLock<HashMap<String, OnionService>>>,
 }

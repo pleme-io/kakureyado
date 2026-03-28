@@ -21,9 +21,10 @@ use kakureyado_core::{
 };
 
 /// Internal record tracking a hosted service and its keypair.
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 struct TorServiceEntry {
     service: OnionService,
+    /// Ed25519 signing key retained for future arti-axum integration.
     #[allow(dead_code)]
     signing_key: [u8; 32],
 }
@@ -35,6 +36,7 @@ struct TorServiceEntry {
 /// The actual inbound Tor hosting (arti-axum) is a TODO — but key generation,
 /// `.onion` address derivation, and lifecycle state tracking are fully
 /// functional.
+#[derive(Debug)]
 pub struct TorOnionHost {
     services: Arc<RwLock<HashMap<String, TorServiceEntry>>>,
 }

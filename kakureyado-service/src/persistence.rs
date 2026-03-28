@@ -85,6 +85,7 @@ fn service_to_active_model(service: &OnionService) -> onion_service::ActiveModel
 // ---------------------------------------------------------------------------
 
 /// SQLite-backed [`ServiceRegistry`] using SeaORM.
+#[derive(Debug)]
 pub struct SqliteRegistry {
     db: DatabaseConnection,
 }
