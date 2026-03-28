@@ -8,13 +8,21 @@ license.workspace = true
 homepage.workspace = true
 repository.workspace = true
 
+[features]
+default = []
+tor = ["dep:kakuremino"]
+persistence = ["dep:sea-orm", "dep:sea-orm-migration"]
+
 [dependencies]
 async-trait = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
+kakuremino = { git = "https://github.com/pleme-io/kakuremino", default-features = false, features = ["tor"], optional = true }
 kakureyado-core = { path = "../kakureyado-core" }
 rand = "0.8"
 rayon = "1"
+sea-orm = { version = "1.1", features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"], optional = true }
+sea-orm-migration = { version = "1.1", optional = true }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha3 = "0.10"
