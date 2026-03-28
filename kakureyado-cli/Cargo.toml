@@ -1,0 +1,25 @@
+[package]
+name = "kakureyado-cli"
+version = "0.1.0"
+description = "CLI for kakureyado onion service hosting platform"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "kakureyado"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+kakureyado-core = { path = "../kakureyado-core" }
+kakureyado-service = { path = "../kakureyado-service" }
+shikumi = "0.1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[lints]
+workspace = true

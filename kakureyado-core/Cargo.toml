@@ -1,0 +1,20 @@
+[package]
+name = "kakureyado-core"
+version = "0.1.0"
+description = "Core traits and types for onion service hosting"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+
+[dependencies]
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+
+[lints]
+workspace = true
